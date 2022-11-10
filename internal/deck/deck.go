@@ -1,6 +1,18 @@
 package deck
 
-import "github.com/bonczj/autowar/internal/cards"
+import (
+	"math/rand"
+	"time"
+
+	"github.com/bonczj/autowar/internal/cards"
+)
+
+var random *rand.Rand
+
+func init() {
+	rand.Seed(time.Now().UnixMicro())
+	random = rand.New(rand.NewSource(time.Now().UnixMicro()))
+}
 
 const DeckSize = 52
 const SuitSize = 4
@@ -45,6 +57,17 @@ func (d *Deck) CardAt(position int) *cards.Card {
 	return &cards.Card{
 		Value: d.cards[position].Value,
 		Title: d.cards[position].Title,
+	}
+}
+
+// Shuffle simulates a person shuffling cards.
+// Split the deck into roughly half.
+// Combine cards from the top of each 'half' into the final deck.
+// Randomly select from either side and for a small amount of cards
+// at a time.
+func (d *Deck) Shuffle() {
+	for i := 0; i < 10; i++ {
+		rand.Shuffle(len(d.cards), func(i, j int) { d.cards[i], d.cards[j] = d.cards[j], d.cards[i] })
 	}
 }
 

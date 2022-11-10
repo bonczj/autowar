@@ -8,7 +8,9 @@ func (d *Deck) Deal() ([]cards.Card, []cards.Card) {
 	hand1 := make([]cards.Card, 0, d.Length()/2)
 	hand2 := make([]cards.Card, 0, d.Length()/2)
 
-	for i := 0; i < 3; i++ {
+	d.Cut()
+
+	for i := 0; i < 10; i++ {
 		d.Shuffle()
 	}
 

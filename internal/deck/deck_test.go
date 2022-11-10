@@ -23,3 +23,14 @@ func TestNewDeck(t *testing.T) {
 	assert.Equal(t, "two of "+string(cards.HeartsStr), deck.CardAt(26).String())
 	assert.Equal(t, "two of "+string(cards.SpadesStr), deck.CardAt(39).String())
 }
+
+func TestShuffle(t *testing.T) {
+	d, err := deck.NewDeck()
+	assert.NoError(t, err)
+	assert.NotNil(t, d)
+	assert.Equal(t, deck.DeckSize, d.Length())
+
+	d.Shuffle()
+	assert.NotNil(t, d)
+	assert.Equal(t, deck.DeckSize, d.Length())
+}

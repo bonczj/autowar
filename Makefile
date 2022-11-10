@@ -1,6 +1,6 @@
 PROGRAM=autowar
 
-build: test static
+build: clean test static
 	go build -o $(PROGRAM) cmd/main.go
 
 test:

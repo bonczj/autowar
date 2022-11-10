@@ -6,7 +6,6 @@ package war
 
 import (
 	"log"
-	"math"
 
 	"github.com/bonczj/autowar/internal/cards"
 	"github.com/bonczj/autowar/internal/deck"
@@ -72,12 +71,12 @@ func NewWar() (*War, error) {
 // - - if a player does not have enough cards for a war, use all of their cards for a short war
 func (w *War) Play() Winner {
 	for {
-		if w.Rounds%1000 == 0 {
-			log.Printf("Round %d", w.Rounds)
-			log.Printf("Player 1 has %d cards", w.PlayerOne.Hand.Length())
-			log.Printf("Player 2 has %d cards", w.PlayerTwo.Hand.Length())
-			log.Println()
-		}
+		// if w.Rounds%1000 == 0 {
+		// 	log.Printf("Round %d", w.Rounds)
+		// 	log.Printf("Player 1 has %d cards", w.PlayerOne.Hand.Length())
+		// 	log.Printf("Player 2 has %d cards", w.PlayerTwo.Hand.Length())
+		// 	log.Println()
+		// }
 		if w.PlayerOne.Hand.Busted() {
 			return WinnerPlayerTwo
 		}
@@ -121,16 +120,17 @@ func (w *War) playRound(cards1 []cards.Card, cards2 []cards.Card, inWar bool) Wi
 
 	switch {
 	case value1 == value2:
-		warSize := 3
-
-		// take up to 3 more cards as long as both players have at least 4 cards.
-		// otherwise, the N-1 where N is the smallest hand left
-		// if no cards are left, it's a tie
-		if w.PlayerOne.Hand.Length() < 4 || w.PlayerTwo.Hand.Length() < 4 {
-			warSize = int(math.Min(float64(w.PlayerOne.Hand.Length()), float64(w.PlayerTwo.Hand.Length()))) - 1
+		if w.PlayerOne.Hand.Length() < 4 && w.PlayerTwo.Hand.Length() < 4 {
+			return WinnerTie
+		}
+		if w.PlayerOne.Hand.Length() < 4 {
+			return WinnerPlayerTwo
+		}
+		if w.PlayerTwo.Hand.Length() < 4 {
+			return WinnerPlayerOne
 		}
 
-		for i := 0; i < warSize; i++ {
+		for i := 0; i < 3; i++ {
 			cards1 = append(cards1, *w.PlayerOne.Hand.Draw())
 			cards2 = append(cards2, *w.PlayerTwo.Hand.Draw())
 		}

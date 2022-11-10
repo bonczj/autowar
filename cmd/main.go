@@ -62,8 +62,6 @@ func run(wg *sync.WaitGroup, input chan bool, output chan war.Result) {
 			log.Fatalln(err)
 		}
 
-		log.Println("game of war done")
-
 		switch w.Play() {
 		case war.WinnerPlayerOne:
 			output <- war.Result{
