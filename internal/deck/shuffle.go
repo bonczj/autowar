@@ -7,14 +7,18 @@ import (
 	"github.com/bonczj/autowar/internal/cards"
 )
 
+var random *rand.Rand
+
+func init() {
+	random = rand.New(rand.NewSource(time.Now().UnixMicro()))
+}
+
 // Shuffle simulates a person shuffling cards.
 // Split the deck into roughly half.
 // Combine cards from the top of each 'half' into the final deck.
 // Randomly select from either side and for a small amount of cards
 // at a time.
 func (d *Deck) Shuffle() {
-	random := rand.New(rand.NewSource(time.Now().UnixMicro()))
-
 	split := len(d.cards)/2 - random.Intn(10)
 	left := d.cards[:split]
 	right := d.cards[split:]

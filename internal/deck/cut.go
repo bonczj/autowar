@@ -1,9 +1,6 @@
 package deck
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/bonczj/autowar/internal/cards"
 )
 
@@ -11,7 +8,6 @@ import (
 // add them back in a different order. We are going to
 // make three cuts then add them back as 3-1-2.
 func (d *Deck) Cut() {
-	random := rand.New(rand.NewSource(time.Now().UnixMicro()))
 	cut := make([]cards.Card, 0, len(d.cards))
 
 	first := 10 + random.Intn(10)
