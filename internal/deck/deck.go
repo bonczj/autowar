@@ -87,6 +87,32 @@ func (d *Deck) Cut() {
 	d.cards = cut
 }
 
+// Deal will shuffle/cut the deck a few times, then
+// distribute the cards evenly between the two players.
+func (d *Deck) Deal() ([]cards.Card, []cards.Card) {
+	hand1 := make([]cards.Card, 0, d.Length()/2)
+	hand2 := make([]cards.Card, 0, d.Length()/2)
+
+	d.Cut()
+
+	for i := 0; i < 10; i++ {
+		d.Shuffle()
+	}
+
+	for i, c := range d.cards {
+		if i%2 == 0 {
+			hand1 = append(hand1, c)
+		} else {
+			hand2 = append(hand2, c)
+		}
+	}
+
+	// remove the internal cards as the players will now have them
+	d.cards = make([]cards.Card, 0)
+
+	return hand1, hand2
+}
+
 func buildSuit(suit cards.Suit) ([]cards.Card, error) {
 	deck := make([]cards.Card, 0, CardsPerSuit)
 	values := make([]cards.Value, 0, CardsPerSuit)
