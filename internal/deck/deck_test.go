@@ -34,3 +34,14 @@ func TestShuffle(t *testing.T) {
 	assert.NotNil(t, d)
 	assert.Equal(t, deck.DeckSize, d.Length())
 }
+
+func TestCut(t *testing.T) {
+	d, err := deck.NewDeck()
+	assert.NoError(t, err)
+	assert.NotNil(t, d)
+	assert.Equal(t, deck.DeckSize, d.Length())
+
+	d.Cut()
+	assert.NotNil(t, d)
+	assert.Equal(t, deck.DeckSize, d.Length())
+}
